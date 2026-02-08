@@ -21,16 +21,10 @@ padding:12px 25px;
 font-size:18px;
 border:none;
 border-radius:20px;
-background:red;
+background:#ff4d6d;
 color:white;
 cursor:pointer;
 margin:10px;
-}
-
-img{
-width:260px;
-border-radius:20px;
-margin-top:20px;
 }
 
 input{
@@ -40,11 +34,16 @@ border-radius:10px;
 border:none;
 }
 
-/* floating hearts */
+img{
+width:260px;
+border-radius:20px;
+margin-top:20px;
+}
+
 .heart{
 position:fixed;
-color:red;
 animation:float 6s linear infinite;
+pointer-events:none;
 }
 
 @keyframes float{
@@ -52,23 +51,20 @@ from{transform:translateY(100vh);}
 to{transform:translateY(-10vh);}
 }
 
-/* sad theme */
 .sad{
 background:#0a1b3a !important;
 }
 
-#env{
-cursor:pointer;
-transition:0.6s;
+#env:hover{
+transform:scale(1.1);
+transition:0.3s;
 }
 </style>
 </head>
 
 <body>
-  <audio id="bgm" autoplay loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8f2b7e7b1.mp3?filename=happy-beat-110624.mp3" type="audio/mpeg">
-</audio>
 
+<!-- floating hearts -->
 <script>
 setInterval(()=>{
 let h=document.createElement("div");
@@ -84,13 +80,13 @@ setTimeout(()=>h.remove(),6000);
 <!-- INTRO -->
 <div id="intro" class="scene" style="display:block">
 <h1>Hi Mahii ❤️</h1>
-<button onclick="playMusic(); showLock()">Continue</button>
+<button onclick="showLock()">Continue</button>
 </div>
 
 <!-- LOCK 1 -->
 <div id="lock1" class="scene">
 <h2>Do you still love me…? 💭</h2>
-<input id="pass1" placeholder="Type our password">
+<input id="pass1" placeholder="Type password">
 <br>
 <button onclick="unlock1()">Continue</button>
 <p id="fail1"></p>
@@ -99,7 +95,7 @@ setTimeout(()=>h.remove(),6000);
 <!-- ENVELOPE -->
 <div id="s1" class="scene">
 <h2>💌 Open our story</h2>
-<img id="env" src="envelope.jpg.jpeg" onclick="openEnvelope()">
+<img id="env" src="envelope.jpg" onclick="openEnvelope()" style="width:200px;cursor:pointer">
 <p>Tap envelope ❤️</p>
 </div>
 
@@ -113,45 +109,35 @@ setTimeout(()=>h.remove(),6000);
 <!-- PIC 1 -->
 <div id="s3" class="scene">
 <h2>You are my cute boy 🥰</h2>
-<img src="pic1.jpg.jpeg">
+<img src="pic1.jpg">
 <button onclick="next(4)">Continue</button>
 </div>
 
 <!-- PIC 2 -->
 <div id="s4" class="scene">
 <h2>Our proposal 💍</h2>
-<img src="pic2.jpg.jpeg">
+<img src="pic2.jpg">
 <button onclick="next(5)">Continue</button>
 </div>
 
 <!-- PIC 3 -->
 <div id="s5" class="scene">
 <h2>Kissie 🥺❤️</h2>
-
-<audio id="kiss">
-<source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_1b6c7f43d2.mp3">
-</audio>
-
-<img src="pic3.jpg.jpeg">
+<img src="pic3.jpg">
 <button onclick="next(6)">Continue</button>
 </div>
 
 <!-- LOCK 2 -->
 <div id="s6" class="scene">
 <h2>Before reading my heart…</h2>
-<input id="pass2" placeholder="Type yes">
+<input id="pass2" placeholder="Type again">
 <br>
 <button onclick="unlock2()">Open Letter</button>
 <p id="fail2"></p>
 </div>
 
-<!-- SAD LETTER -->
+<!-- LETTER -->
 <div id="s7" class="scene sad">
-
-<audio autoplay loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3">
-</audio>
-
 <h2>I love you so much…</h2>
 <p id="letter" style="max-width:500px;margin:auto"></p>
 <button onclick="next(8)">Continue</button>
@@ -172,40 +158,43 @@ setTimeout(()=>h.remove(),6000);
 
 <!-- FINAL -->
 <div id="s10" class="scene">
-<img src="pic4.jpg.jpeg">
+<img src="pic4.jpg">
 <h2>Forever us ❤️</h2>
 </div>
 
 <script>
 
+function hideAll(){
+document.querySelectorAll(".scene")
+.forEach(s=>s.style.display="none");
+}
+
 function showLock(){
-document.getElementById("intro").style.display="none";
+hideAll();
 document.getElementById("lock1").style.display="block";
 }
 
 function unlock1(){
-if(document.getElementById("pass1").value.toLowerCase()==="mahi"){
+let p=document.getElementById("pass1").value.toLowerCase();
+if(p==="mahi"){
 next(1);
 }else{
-document.getElementById("fail1").innerHTML="My heart will wait… 💔";
+document.getElementById("fail1").innerHTML="Wrong password 💔";
 }
 }
 
 function unlock2(){
-if(document.getElementById("pass2").value.toLowerCase()==="mahidontlovehasini"){
+let p=document.getElementById("pass2").value.toLowerCase();
+if(p==="love"){
 next(7);
 }else{
-document.getElementById("fail2").innerHTML="Try again… 💭";
+document.getElementById("fail2").innerHTML="Try again 💔";
 }
 }
 
 function next(n){
-document.querySelectorAll(".scene").forEach(s=>s.style.display="none");
+hideAll();
 document.getElementById("s"+n).style.display="block";
-
-if(n===5){
-document.getElementById("kiss").play();
-}
 
 if(n===7){
 startTyping();
@@ -215,16 +204,15 @@ document.body.classList.remove("sad");
 }
 }
 
-/* ENVELOPE HEART BURST */
 function openEnvelope(){
 let e=document.getElementById("env");
-e.style.transform="scale(1.4) rotate(15deg)";
+e.style.transform="scale(1.4) rotate(12deg)";
 e.style.opacity="0";
 
 for(let i=0;i<40;i++){
 let h=document.createElement("div");
-h.innerHTML="💖";
 h.className="heart";
+h.innerHTML="💖";
 h.style.left=(50+Math.random()*40-20)+"vw";
 h.style.top=(50+Math.random()*40-20)+"vh";
 h.style.fontSize=(20+Math.random()*40)+"px";
@@ -235,21 +223,14 @@ setTimeout(()=>h.remove(),2000);
 setTimeout(()=>next(2),900);
 }
 
-/* TYPING LETTER */
-const text=`Mahindra... ❤️
+const text=`Mahindra… ❤️
 
-I Love You So Much…
-Career lo success avvu…
-All the best…
+I Love You So Much.
+Career lo success avvu.
+All the best.
 
-Neek nen istam aythe ne nee pucca unta 🫣
-Nuv nak connect aynavo ledho thelidhu…
-Kani nen chala ayna… 😫
-Nen ninu chala sathayinchina… 🤧
-Am sorry… 🫠
-
-I miss you so muchh…
-Kani ninnu eppudu love chesthune unta… ❤️`;
+I miss you so muchh.
+Forever yours ❤️`;
 
 let i=0;
 
@@ -267,33 +248,7 @@ setTimeout(type,40);
 }
 }
 
-
-function hideAll(){
-document.querySelectorAll(".scene").forEach(s => s.style.display = "none");
-}
-
-function showLock(){
-hideAll();
-document.getElementById("lock1").style.display="block";
-}
-
-function unlock1(){
-let p=document.getElementById("pass1").value.toLowerCase();
-
-if(p==="mahi"){   // ← change password here
-hideAll();
-document.getElementById("s1").style.display="block";
-}
-else{
-document.getElementById("fail1").innerHTML="Wrong password 💔";
-}
-}
-
-function next(n){
-hideAll();
-document.getElementById("s"+n).style.display="block";
-}
-
 </script>
+
 </body>
 </html>
