@@ -267,7 +267,33 @@ setTimeout(type,40);
 }
 }
 
-</script>
 
+function hideAll(){
+document.querySelectorAll(".scene").forEach(s => s.style.display = "none");
+}
+
+function showLock(){
+hideAll();
+document.getElementById("lock1").style.display="block";
+}
+
+function unlock1(){
+let p=document.getElementById("pass1").value.toLowerCase();
+
+if(p==="mahi"){   // ← change password here
+hideAll();
+document.getElementById("s1").style.display="block";
+}
+else{
+document.getElementById("fail1").innerHTML="Wrong password 💔";
+}
+}
+
+function next(n){
+hideAll();
+document.getElementById("s"+n).style.display="block";
+}
+
+</script>
 </body>
 </html>
