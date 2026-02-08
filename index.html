@@ -65,6 +65,9 @@ transition:0.6s;
 </head>
 
 <body>
+  <audio id="bgm" autoplay loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8f2b7e7b1.mp3?filename=happy-beat-110624.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 setInterval(()=>{
@@ -81,7 +84,7 @@ setTimeout(()=>h.remove(),6000);
 <!-- INTRO -->
 <div id="intro" class="scene" style="display:block">
 <h1>Hi Mahii ❤️</h1>
-<button onclick="showLock()">Continue</button>
+<button onclick="playMusic(); showLock()">Continue</button>
 </div>
 
 <!-- LOCK 1 -->
